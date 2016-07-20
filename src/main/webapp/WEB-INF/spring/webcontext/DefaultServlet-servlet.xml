@@ -11,6 +11,18 @@
     <context:component-scan base-package="com.webstore" />
     <context:property-placeholder location="classpath:app.properties" />
 
+    <mvc:interceptors>
+        <bean class="com.webstore.interceptor.PerformanceMonitorInterceptor"/>
+        <bean class="com.webstore.interceptor.AuditingInterceptor"/>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="language"/>
+        </bean>
+    </mvc:interceptors>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+    </bean>
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />

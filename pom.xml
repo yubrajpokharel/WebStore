@@ -14,6 +14,7 @@
         <springsecurity.version>4.0.1.RELEASE</springsecurity.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.connector.version>5.1.31</mysql.connector.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -23,6 +24,13 @@
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+
         <!-- Cache -->
         <dependency>
             <groupId>net.sf.ehcache</groupId>
