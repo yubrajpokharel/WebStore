@@ -103,13 +103,18 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.3.1.Final</version>
+        </dependency>
 
         <!-- jsr303 validation -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javax.validation</groupId>-->
+            <!--<artifactId>validation-api</artifactId>-->
+            <!--<version>1.1.0.Final</version>-->
+        <!--</dependency>-->
 
 
         <!-- Apache Database Connection Pool -->
@@ -155,7 +160,7 @@
             <version>1.4</version>
         </dependency>
 
-        <!--Content Negosiation View Resolvers-->
+        <!--ContentNegosiation View Resolvers-->
 
         <!-- Needed for XML View (with JAXB2) -->
         <dependency>

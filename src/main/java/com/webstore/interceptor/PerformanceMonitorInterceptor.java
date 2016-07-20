@@ -1,7 +1,6 @@
 package com.webstore.interceptor;
 
 import org.apache.log4j.Logger;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.util.StopWatch;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
