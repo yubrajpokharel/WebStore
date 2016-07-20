@@ -15,6 +15,7 @@
                     username-parameter="username" password-parameter="password"/>
         <form-login  authentication-failure-url="/loginfailed" />
         <logout logout-success-url="/logout"/>
+        <csrf disabled="true"></csrf>
     </http>
 
     <authentication-manager >

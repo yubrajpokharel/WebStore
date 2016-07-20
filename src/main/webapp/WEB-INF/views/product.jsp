@@ -12,18 +12,22 @@
 1">
     <link rel="stylesheet"
           href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    <title>Products</title>
+    <title>${product.name}</title>
 </head>
 <body>
 <section>
     <div class="jumbotron">
         <div class="container">
-            <h1>Products</h1>
+            <h1>Product Information</h1>
         </div>
     </div>
 </section>
 <section class="container">
     <div class="row">
+        <div class="col-md-5">
+            <img src="<c:url value="/resources/images/products/${product.productId}.jpg"></c:url>"
+                 width="100%" title="${product.name}" alt="${product.name}">
+        </div>
         <div class="col-md-5">
             <h3>${product.name}</h3>
             <p>${product.description}</p>

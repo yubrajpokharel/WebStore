@@ -28,7 +28,7 @@
 </section>
 <section class="container">
 
-    <form:form modelAttribute="newProduct" class="form-horizontal">
+    <form:form modelAttribute="newProduct" class="form-horizontal" enctype="multipart/form-data">
     <fieldset>
         <legend>Add new product</legend>
         <div class="form-group">
@@ -108,6 +108,15 @@
             </label>
             <div class="col-lg-10">
                 <form:input id="unitsInStock" path="unitsInStock" type="text" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-2" for="productImage">
+                <spring:message code="addProduct.form.productImage.label"/>
+            </label>
+            <div class="col-lg-10">
+                <form:input path="productImage" id="productImage" class="form-control" type="file" />
             </div>
         </div>
 

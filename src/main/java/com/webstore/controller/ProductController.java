@@ -1,17 +1,24 @@
 package com.webstore.controller;
 
 import com.webstore.domain.Product;
+import com.webstore.exception.NoProductsFoundUnderCategoryException;
+import com.webstore.exception.ProductNotFoundException;
 import com.webstore.service.ProductService;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +29,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
+
+    @Value("${product.image.upload.location}")
+    String uploadDir;
 
     @Autowired
     ProductService productService;
@@ -40,7 +50,14 @@ public class ProductController {
 
     @RequestMapping("/{category}")
     public String getProductByCategory(Model model, @PathVariable("category") String category){
-        model.addAttribute("products", productService.getAllProductByCategory(category));
+
+        List<Product> productList = productService.getAllProductByCategory(category);
+
+        if(productList == null || productList.isEmpty()){
+            throw new NoProductsFoundUnderCategoryException();
+        }
+
+        model.addAttribute("products", productList);
         return "products";
     }
 
@@ -86,20 +103,49 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddNewProductForm(@ModelAttribute("newProduct") Product product,
-                                           BindingResult result){
+    public String processAddNewProductForm(@ModelAttribute("newProduct") Product productToBeAdded,
+                                           BindingResult result, HttpServletRequest request){
 
         String[] suppressedFields = result.getSuppressedFields();
         if(suppressedFields.length >  0){
             throw new RuntimeException("Attempting to bind Disallowed fields : "+
                     StringUtils.arrayToCommaDelimitedString(suppressedFields));
         }
-        productService.addProduct(product);
+
+        MultipartFile productImage = productToBeAdded.getProductImage();
+        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+        System.out.println(rootDirectory);
+
+        if (productImage!=null && !productImage.isEmpty()) {
+            System.out.println("i am here");
+            try {
+                productImage.transferTo(new File(rootDirectory+uploadDir+productToBeAdded.getProductId() + ".jpg") );
+            } catch (Exception e) {
+                throw new RuntimeException("Product Image saving failed", e);
+            }
+        }
+
+        productService.addProduct(productToBeAdded);
         return "redirect:/products";
     }
 
     @InitBinder
     public void initialiazeBinder(WebDataBinder binder){
+
+        binder.setAllowedFields("productId","name","unitPrice","description",
+                                "manufacturer","category","unitsInStock", "productImage", "condition");
+
         binder.setDisallowedFields("unitsInOrder","discontinued");
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ModelAndView handleError(HttpServletRequest
+                                            req, ProductNotFoundException exception) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("invalidProductId", exception.getProductID());
+        mav.addObject("exception", exception);
+        mav.addObject("url",req.getRequestURL()+"?"+req.getQueryString());
+        mav.setViewName("productNotFound");
+        return mav;
     }
 }
