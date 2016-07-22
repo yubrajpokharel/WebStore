@@ -4,6 +4,7 @@ import com.webstore.domain.Product;
 import com.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.webstore.exception.ProductNotFoundException;
 import com.webstore.service.ProductService;
+import com.webstore.validator.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ProductValidator productValidator;
 
     @RequestMapping
     public String list(Model model){
@@ -142,14 +146,16 @@ public class ProductController {
     public void initialiazeBinder(WebDataBinder binder){
 
         binder.setAllowedFields("productId","name","unitPrice","description",
-                                "manufacturer","category","unitsInStock", "productImage", "condition");
+                                "manufacturer","category","unitsInStock", "productImage",
+                                "condition", "language");
 
         binder.setDisallowedFields("unitsInOrder","discontinued");
+
+        binder.setValidator(productValidator);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ModelAndView handleError(HttpServletRequest
-                                            req, ProductNotFoundException exception) {
+    public ModelAndView handleError(HttpServletRequest req, ProductNotFoundException exception) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("invalidProductId", exception.getProductID());
         mav.addObject("exception", exception);

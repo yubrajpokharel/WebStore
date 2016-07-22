@@ -69,6 +69,7 @@
             </label>
             <div class="col-lg-10">
                 <form:input path="category" id="category" type="text" class="form-control" />
+                <form:errors path="category" cssClass="text-danger"/>
             </div>
         </div>
 
@@ -90,13 +91,6 @@
             </div>
         </div>
 
-        <%--<div class="form-group">--%>
-            <%--<label class="control-label col-lg-2" for="discontinued">Discontinued</label>--%>
-            <%--<div class="col-lg-10">--%>
-                <%--<form:checkbox id="discontinued" path="discontinued"/>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-
         <div class="form-group">
             <%--@declare id="condition"--%>
             <label class="control-label col-lg-2" for="condition">
@@ -115,6 +109,7 @@
             </label>
             <div class="col-lg-10">
                 <form:input id="unitsInStock" path="unitsInStock" type="text" class="form-control" />
+                <form:errors path="unitsInStock" cssClass="text-danger"/>
             </div>
         </div>
 
@@ -126,14 +121,6 @@
                 <form:input path="productImage" id="productImage" class="form-control" type="file" />
             </div>
         </div>
-
-        <%--<div class="form-group">--%>
-            <%--<label class="control-label col-lg-2 col-lg-2" for="unitsInOrder">Units--%>
-                <%--In Order</label>--%>
-            <%--<div class="col-lg-10">--%>
-                <%--<form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form-control" />--%>
-            <%--</div>--%>
-        <%--</div>--%>
 
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">

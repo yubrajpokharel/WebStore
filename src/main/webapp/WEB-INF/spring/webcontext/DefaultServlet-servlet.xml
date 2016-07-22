@@ -72,6 +72,17 @@
     </bean>
     <!-- // ContentNegotiationViewResolver -->
 
+    <!--Validators-->
+    <bean id="productValidator" class="com.webstore.validator.ProductValidator">
+        <property name="springValidator">
+            <set>
+                <ref bean="unitsInStockValidator"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="unitInStockValidator" class="com.webstore.validator.UnitsInStockValidator"/>
+
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
 </beans>

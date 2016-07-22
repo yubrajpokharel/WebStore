@@ -27,8 +27,7 @@ public class AuditingInterceptor extends HandlerInterceptorAdapter {
     }
 
     public void afterCompletion(HttpServletRequest request,HttpServletResponse response, Object handler,Exception arg3) throws Exception{
-    if(request.getRequestURI().endsWith("products/add")
-                &&response.getStatus()==302){
+    if(request.getRequestURI().endsWith("products/add")  &&response.getStatus()==302){
             logger.info(String.format("A New product[%s] Added by %s on %s",productId, user, getCurrentTime()));
         }
     }
